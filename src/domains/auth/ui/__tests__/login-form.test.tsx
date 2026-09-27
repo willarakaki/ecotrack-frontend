@@ -3,6 +3,12 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { LoginForm } from "../login-form"
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}))
+
 describe("LoginForm Component", () => {
   it("deve renderizar os campos de email e senha, logo e botões", () => {
     render(<LoginForm />)

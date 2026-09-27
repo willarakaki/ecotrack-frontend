@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Mail, Lock, Eye, EyeOff, Building, ShieldCheck, Leaf } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
@@ -9,13 +10,15 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const router = useRouter()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Mocking do loading state
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
-      // Aqui integrariamos a API via React Query/Axios futuramente
+      router.push("/home")
     }, 1500)
   }
 
