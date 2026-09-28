@@ -17,7 +17,7 @@ export default function EnergyPage() {
         </div>
       </div>
 
-      <CameraUploader activityName="Uso de Fontes Renováveis" points={40} />
+      <CameraUploader activityName="Uso de Fontes Renováveis" points={10} />
     </div>
   )
 }

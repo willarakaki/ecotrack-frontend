@@ -98,10 +98,24 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
 
       {state === "idle" && (
         <>
-          <Button size="lg" className="w-full text-base" onClick={handleSimulateUpload}>
-            <Camera className="mr-2" size={20} />
-            Enviar Comprovante ou Print
-          </Button>
+          <div className="relative w-full">
+            <input 
+              type="file" 
+              accept="image/*,application/pdf" 
+              capture="environment"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  handleSimulateUpload()
+                }
+              }}
+              aria-label="Fazer upload de comprovante"
+            />
+            <Button size="lg" className="w-full text-base relative pointer-events-none z-0">
+              <Camera className="mr-2" size={20} />
+              Enviar Comprovante ou Print
+            </Button>
+          </div>
 
           <div className="bg-gray-100 rounded-xl p-4 flex gap-3 text-gray-600 text-xs">
             <Info size={16} className="flex-shrink-0 mt-0.5" />

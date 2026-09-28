@@ -9,7 +9,7 @@ export default function MobilityPage() {
         <p className="text-sm text-gray-500 mt-1">Valide seu transporte sustentável e ganhe pontos.</p>
       </div>
 
-      <CameraUploader activityName="Transporte Público Metrô" points={50} />
+      <CameraUploader activityName="Transporte Público Metrô" points={5} />
     </div>
   )
 }

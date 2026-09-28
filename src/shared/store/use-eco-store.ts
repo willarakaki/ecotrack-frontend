@@ -17,7 +17,7 @@ interface EcoStore {
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
-  ecoPoints: 50,
+  ecoPoints: 1495,
   individualCarbonSaved: 24.5,
   companyCarbonSaved: 1.4,
   redeemedRewards: [],

@@ -32,7 +32,7 @@ export default function MarketplacePage() {
       id: "ifood",
       name: "Cupom R$ 15 iFood",
       desc: "Um café ou lanche para o seu dia.",
-      points: 100,
+      points: 1500,
       icon: Coffee,
       label: "R$ 15"
     },
@@ -40,7 +40,7 @@ export default function MarketplacePage() {
       id: "uber",
       name: "Cupom Uber R$ 20",
       desc: "Use seu cupom para corridas mais sustentáveis.",
-      points: 150,
+      points: 2000,
       icon: null,
       label: "Uber"
     },
@@ -48,7 +48,7 @@ export default function MarketplacePage() {
       id: "spotify",
       name: "Spotify Premium (1 mês)",
       desc: "Curta suas músicas sem interrupções.",
-      points: 300,
+      points: 5000,
       icon: Headphones,
       label: "Música"
     },
@@ -56,7 +56,7 @@ export default function MarketplacePage() {
       id: "dayoff",
       name: "1 Day-off",
       desc: "Um dia de folga para você descansar e recarregar!",
-      points: 500,
+      points: 15000,
       icon: Calendar,
       label: "Folga"
     }
