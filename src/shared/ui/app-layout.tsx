@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { CopilotWidget } from "@/domains/copilot/ui/copilot-widget"
@@ -11,6 +11,8 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
+  const [showNotifications, setShowNotifications] = useState(false)
+
   const navItems = [
     { label: "Início", path: "/home", icon: Home },
     { label: "Atividades", path: "/activities", icon: Leaf },
@@ -18,6 +20,26 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
     { label: "Impacto", path: "/impact", icon: BarChart2 },
     { label: "Perfil", path: "/profile", icon: User },
   ]
+
+  const NotificationsPanel = () => (
+    <div className="absolute right-4 top-16 w-80 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden z-50 animate-in slide-in-from-top-2">
+      <div className="bg-gray-50 border-b border-gray-100 p-4 font-bold text-gray-900">
+        Notificações
+      </div>
+      <div className="flex flex-col max-h-80 overflow-y-auto">
+        <div className="p-4 border-b border-gray-50 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
+          <span className="font-semibold text-sm text-gray-900">EcoPoints creditados!</span>
+          <span className="text-xs text-gray-500">Seu comprovante de mobilidade foi validado. +5 pts.</span>
+          <span className="text-xs text-green-600 font-medium mt-1">Há 10 min</span>
+        </div>
+        <div className="p-4 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
+          <span className="font-semibold text-sm text-gray-900">Resgate efetuado</span>
+          <span className="text-xs text-gray-500">Seu cupom do iFood já está disponível.</span>
+          <span className="text-xs text-green-600 font-medium mt-1">Há 1 hora</span>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row w-full mx-auto max-w-7xl shadow-sm">
@@ -55,23 +77,33 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
 
       {/* Container Principal */}
       <div className="flex-1 flex flex-col min-h-screen pb-20 md:pb-0 relative">
-        {/* Header Mobile Opcional (Para notificações) */}
+        {/* Header Mobile Opcional */}
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex items-center gap-2">
             <Image src="/logo.jpg" alt="EcoTrack Logo" width={28} height={28} className="rounded-md" />
             <span className="font-bold text-lg text-gray-900">EcoTrack AI</span>
           </div>
-          <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
+          <button 
+            className="text-gray-500 hover:text-gray-900 relative"
+            onClick={() => setShowNotifications(!showNotifications)}
+          >
             <Bell size={24} />
+            <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></div>
           </button>
         </header>
 
         {/* Header Desktop */}
         <header className="hidden md:flex justify-end p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
-           <button className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors">
+           <button 
+             className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors relative"
+             onClick={() => setShowNotifications(!showNotifications)}
+           >
             <Bell size={24} />
+            <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></div>
           </button>
         </header>
+
+        {showNotifications && <NotificationsPanel />}
 
         {/* Conteúdo da Página */}
         <main className="flex-1 overflow-y-auto">

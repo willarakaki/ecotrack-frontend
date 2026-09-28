@@ -16,9 +16,11 @@ export default function ProfilePage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm mb-6 flex items-center gap-6 relative">
-        <Button variant="ghost" size="icon" className="absolute top-4 right-4 text-gray-400 hover:text-gray-900" title="Configurações">
-          <Settings size={20} />
-        </Button>
+        <Link href="/settings" className="absolute top-4 right-4">
+          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-gray-900" title="Configurações">
+            <Settings size={20} />
+          </Button>
+        </Link>
         <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-[#00a859] border-2 border-green-100">
           <User size={40} />
         </div>
