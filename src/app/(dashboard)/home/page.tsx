@@ -3,14 +3,13 @@
 import React, { useState } from "react"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
 import { useEcoStore } from "@/shared/store/use-eco-store"
-import { Leaf, Award, Heart, MessageSquare, Target, Plus } from "lucide-react"
+import { Leaf, Award, Heart, Target, Plus } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 
 export default function DashboardPage() {
-  const { ecoPoints, individualCarbonSaved, feed, likeFeedItem, activeGoal, sendPeerPraise } = useEcoStore()
+  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise } = useEcoStore()
   const [isPraiseModalOpen, setIsPraiseModalOpen] = useState(false)
   
-  // Estados locais do modal
   const [receiver, setReceiver] = useState("")
   const [pointsToSend, setPointsToSend] = useState(10)
   const [message, setMessage] = useState("")
@@ -31,7 +30,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 w-full max-w-2xl mx-auto pb-24 relative">
       
-      {/* Saudação e Saldo (Above the fold) */}
+      {/* Saudação e Saldo */}
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Boa tarde, João!</h1>
         <p className="text-sm text-gray-500">A energia da equipe está em alta hoje.</p>
@@ -46,12 +45,30 @@ export default function DashboardPage() {
               <span className="text-sm font-medium">pts</span>
             </div>
           </div>
-          <div>
-            <p className="text-sm font-medium text-green-100">Carbono Evitado</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold"><AnimatedNumber value={individualCarbonSaved} /></span>
-              <span className="text-sm font-medium">kg CO₂</span>
-            </div>
+        </div>
+      </div>
+
+      {/* Cards de Impacto Carbono */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-gray-500 mb-1">
+            <Leaf size={16} />
+            <span className="text-xs font-semibold uppercase">Seu Impacto</span>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-bold text-gray-900"><AnimatedNumber value={individualCarbonSaved} /></span>
+            <span className="text-sm font-medium text-gray-500">kg CO₂</span>
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-gray-500 mb-1">
+            <Target size={16} />
+            <span className="text-xs font-semibold uppercase">Time Impacto</span>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-bold text-gray-900"><AnimatedNumber value={companyCarbonSaved} /></span>
+            <span className="text-sm font-medium text-gray-500">ton CO₂</span>
           </div>
         </div>
       </div>
@@ -114,10 +131,10 @@ export default function DashboardPage() {
                   {item.tag}
                 </span>
                 <button 
-                  onClick={() => likeFeedItem(item.id)}
+                  onClick={() => toggleLikeFeedItem(item.id)}
                   className="flex items-center gap-1 text-gray-400 hover:text-red-500 transition-colors text-sm font-medium"
                 >
-                  <Heart size={16} className={item.likes > 0 ? "fill-red-500 text-red-500" : ""} />
+                  <Heart size={16} className={item.isLikedByMe ? "fill-red-500 text-red-500" : ""} />
                   {item.likes}
                 </button>
               </div>
@@ -145,7 +162,7 @@ export default function DashboardPage() {
               <input 
                 type="text" 
                 placeholder="Ex: Maria" 
-                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-[#00a859]"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 mt-1 text-sm text-gray-900 font-medium focus:outline-none focus:border-[#00a859]"
                 value={receiver}
                 onChange={e => setReceiver(e.target.value)}
               />
@@ -184,14 +201,14 @@ export default function DashboardPage() {
               <label className="text-xs font-semibold text-gray-500 uppercase">Mensagem</label>
               <textarea 
                 placeholder="Obrigado por salvar aquele projeto..." 
-                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 mt-1 text-sm resize-none focus:outline-none focus:border-[#00a859] h-20"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 mt-1 text-sm text-gray-900 font-medium resize-none focus:outline-none focus:border-[#00a859] h-20"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
               />
             </div>
 
             <div className="flex gap-3 mt-2">
-              <Button variant="outline" className="flex-1" onClick={() => setIsPraiseModalOpen(false)}>Cancelar</Button>
+              <Button variant="outline" className="flex-1 text-gray-700" onClick={() => setIsPraiseModalOpen(false)}>Cancelar</Button>
               <Button className="flex-1 bg-[#00a859] hover:bg-[#00904a] text-white" onClick={handleSendPraise}>Enviar</Button>
             </div>
           </div>

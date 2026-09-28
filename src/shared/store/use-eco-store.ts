@@ -13,6 +13,7 @@ export interface FeedItem {
   content: string
   tag?: string
   likes: number
+  isLikedByMe?: boolean
   date: string
 }
 
@@ -28,7 +29,7 @@ interface EcoStore {
   redeemReward: (cost: number, rewardName: string) => boolean
   setActiveGoal: (name: string, cost: number) => void
   sendPeerPraise: (receiver: string, points: number, message: string, tag: string) => boolean
-  likeFeedItem: (id: string) => void
+  toggleLikeFeedItem: (id: string) => void
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
@@ -44,6 +45,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
       content: "Bem-vindo ao novo Mural Sustentável e de Reconhecimento!",
       tag: "#Inovação",
       likes: 5,
+      isLikedByMe: false,
       date: "Hoje"
     }
   ],
@@ -55,6 +57,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
       content: `Registrou uma ação de sustentabilidade: ${activityName} e ganhou ${points} EcoPoints!`,
       tag: "#Sustentabilidade",
       likes: 0,
+      isLikedByMe: false,
       date: "Agora"
     }
     return {
@@ -74,6 +77,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
         content: `Resgatou a recompensa: ${rewardName}!`,
         tag: "#Reconhecimento",
         likes: 0,
+        isLikedByMe: false,
         date: "Agora"
       }
       set({ 
@@ -103,6 +107,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
         content: message,
         tag: tag,
         likes: 0,
+        isLikedByMe: false,
         date: "Agora"
       }
       set({
@@ -114,7 +119,16 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
     return false
   },
 
-  likeFeedItem: (id) => set((state) => ({
-    feed: state.feed.map(item => item.id === id ? { ...item, likes: item.likes + 1 } : item)
+  toggleLikeFeedItem: (id) => set((state) => ({
+    feed: state.feed.map(item => {
+      if (item.id === id) {
+        if (item.isLikedByMe) {
+          return { ...item, likes: item.likes - 1, isLikedByMe: false }
+        } else {
+          return { ...item, likes: item.likes + 1, isLikedByMe: true }
+        }
+      }
+      return item
+    })
   }))
 }))
