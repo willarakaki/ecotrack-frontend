@@ -2,7 +2,8 @@
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Mail, Lock, Eye, EyeOff, Building, ShieldCheck, Leaf } from "lucide-react"
+import Image from "next/image"
+import { Mail, Lock, Eye, EyeOff, Building, ShieldCheck } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
 
@@ -26,11 +27,9 @@ export function LoginForm() {
     <div className="w-full max-w-md mx-auto flex flex-col items-center px-4">
       {/* Logo e Cabeçalho */}
       <div className="flex flex-col items-center mb-10 text-center">
-        {/* Placeholder do logo baseado no figma (folha verde) */}
-        <div className="mb-4 text-[#00a859]">
-          <Leaf size={64} strokeWidth={1.5} />
+        <div className="mb-4 rounded-xl overflow-hidden shadow-sm">
+          <Image src="/logo.jpg" alt="EcoTrack AI Logo" width={100} height={100} priority />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">EcoTrack AI</h1>
         <p className="text-gray-600 mt-2 text-sm max-w-[280px]">
           Inteligência que transforma ações em impacto positivo.
         </p>

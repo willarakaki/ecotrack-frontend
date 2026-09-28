@@ -1,5 +1,6 @@
 import React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Home, Leaf, Gift, BarChart2, User, Bell } from "lucide-react"
 import { cn } from "./button"
 
@@ -25,7 +26,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
       */}
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200">
         <div className="p-6 flex items-center gap-3">
-          <Leaf className="text-[#00a859]" size={32} />
+          <Image src="/logo.jpg" alt="EcoTrack Logo" width={32} height={32} className="rounded-md" />
           <span className="font-bold text-xl tracking-tight text-gray-900">EcoTrack AI</span>
         </div>
         
@@ -56,7 +57,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
         {/* Header Mobile Opcional (Para notificações) */}
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex items-center gap-2">
-            <Leaf className="text-[#00a859]" size={24} />
+            <Image src="/logo.jpg" alt="EcoTrack Logo" width={28} height={28} className="rounded-md" />
             <span className="font-bold text-lg text-gray-900">EcoTrack AI</span>
           </div>
           <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
