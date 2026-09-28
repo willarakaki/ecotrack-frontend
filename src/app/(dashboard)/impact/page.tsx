@@ -66,6 +66,45 @@ export default function ImpactPage() {
         <Leaf size={20} className="text-gray-500 flex-shrink-0" />
         <p>Os cálculos são baseados em fatores reconhecidos e validados pela EcoTrack AI</p>
       </div>
+
+      {/* Leaderboard (Gamificação Amigável de Equipes) */}
+      <div className="mt-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">🏆 Ranking por Departamentos</h2>
+          <span className="text-xs text-gray-500 uppercase font-bold">Ciclo: Q3</span>
+        </div>
+        
+        <div className="bg-white border border-gray-200 rounded-2xl p-2 shadow-sm flex flex-col">
+          
+          <div className="flex items-center gap-4 p-3 bg-[#00a859]/10 rounded-xl relative overflow-hidden">
+            <div className="w-8 h-8 bg-[#00a859] text-white rounded-full flex items-center justify-center font-bold text-sm z-10">1</div>
+            <div className="flex flex-col z-10">
+              <span className="font-bold text-gray-900">Engenharia de Software</span>
+              <span className="text-xs text-[#00a859] font-medium">+15.200 pts esta semana</span>
+            </div>
+            <span className="ml-auto font-bold text-xl text-[#00a859] z-10">84.5k</span>
+          </div>
+
+          <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+            <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-700">Marketing & Vendas</span>
+              <span className="text-xs text-gray-500">Subindo posições</span>
+            </div>
+            <span className="ml-auto font-bold text-gray-600">72.1k</span>
+          </div>
+
+          <div className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+            <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-700">Recursos Humanos</span>
+              <span className="text-xs text-gray-500">Desafiante direto</span>
+            </div>
+            <span className="ml-auto font-bold text-gray-600">65.0k</span>
+          </div>
+
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,14 +1,14 @@
 "use client"
-
 import React, { useState } from "react"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
 import { useEcoStore } from "@/shared/store/use-eco-store"
-import { Leaf, Award, Heart, Target, Plus } from "lucide-react"
+import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 
 export default function DashboardPage() {
-  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise } = useEcoStore()
+  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz } = useEcoStore()
   const [isPraiseModalOpen, setIsPraiseModalOpen] = useState(false)
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
   
   const [receiver, setReceiver] = useState("")
   const [pointsToSend, setPointsToSend] = useState(10)
@@ -72,6 +72,33 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Campanhas e Desafios */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 text-white shadow-sm flex flex-col gap-2 relative overflow-hidden">
+        <Zap size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
+        <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded-md w-fit uppercase tracking-wider">Desafio da Semana</span>
+        <h3 className="font-bold text-lg mt-1">Semana Sem Papel 🌳</h3>
+        <p className="text-blue-100 text-sm">Não imprima nada até sexta-feira e ganhe +50 pts bônus de equipe!</p>
+      </div>
+
+      {/* Micro-aprendizagem (Quiz) */}
+      {!dailyQuizCompleted && (
+        <button 
+          onClick={() => setIsQuizModalOpen(true)}
+          className="bg-white border-2 border-orange-200 hover:border-orange-300 rounded-2xl p-4 shadow-sm flex items-center justify-between text-left transition-colors"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center">
+              <BookOpen size={24} />
+            </div>
+            <div>
+              <h4 className="font-bold text-gray-900 text-sm">Quiz Diário Disponível</h4>
+              <p className="text-gray-500 text-xs">Responda para ganhar +5 EcoPoints fáceis!</p>
+            </div>
+          </div>
+          <ChevronRight size={20} className="text-gray-400" />
+        </button>
+      )}
 
       {/* Progresso do Objetivo de Mercado (Marketplace Goal) */}
       {activeGoal && (
@@ -211,6 +238,32 @@ export default function DashboardPage() {
               <Button variant="outline" className="flex-1 text-gray-700" onClick={() => setIsPraiseModalOpen(false)}>Cancelar</Button>
               <Button className="flex-1 bg-[#00a859] hover:bg-[#00904a] text-white" onClick={handleSendPraise}>Enviar</Button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Quiz */}
+      {isQuizModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
+          <div className="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl flex flex-col gap-6 animate-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-900">Quiz Rápido 🧠</h3>
+              <span className="bg-orange-100 text-orange-600 font-bold px-2 py-1 rounded text-xs">+5 pts</span>
+            </div>
+            
+            <div>
+              <p className="text-gray-700 font-medium text-lg leading-snug">Qual setor é responsável por cerca de 30% das emissões globais de gases de efeito estufa?</p>
+              <div className="flex flex-col gap-3 mt-6">
+                <Button variant="outline" className="justify-start text-left h-auto py-3 px-4 font-normal text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors" onClick={() => alert("Ops! Tente novamente amanhã.")}>A) Indústria Têxtil</Button>
+                <Button variant="outline" className="justify-start text-left h-auto py-3 px-4 font-normal text-gray-600 hover:bg-green-50 hover:text-green-600 hover:border-green-300 transition-colors" onClick={() => {
+                  completeDailyQuiz(5)
+                  setIsQuizModalOpen(false)
+                }}>B) Produção de Energia (Eletricidade e Calor)</Button>
+                <Button variant="outline" className="justify-start text-left h-auto py-3 px-4 font-normal text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors" onClick={() => alert("Ops! Tente novamente amanhã.")}>C) Transporte Aéreo</Button>
+              </div>
+            </div>
+
+            <Button variant="ghost" className="text-gray-400 mt-2" onClick={() => setIsQuizModalOpen(false)}>Pular por enquanto</Button>
           </div>
         </div>
       )}
