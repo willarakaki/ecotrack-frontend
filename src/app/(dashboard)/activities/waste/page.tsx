@@ -17,7 +17,7 @@ export default function WastePage() {
         </div>
       </div>
 
-      <CameraUploader activityName="Descarte de Recicláveis" points={30} />
+      <CameraUploader activityName="Descarte de Recicláveis" points={3} />
     </div>
   )
 }
