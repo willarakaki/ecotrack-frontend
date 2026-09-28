@@ -4,6 +4,7 @@ import React from "react"
 import { Leaf, Calendar, Car, Info, ChevronRight } from "lucide-react"
 import { useEcoStore } from "@/shared/store/use-eco-store"
 import { Button } from "@/shared/ui/button"
+import { AnimatedNumber } from "@/shared/ui/animated-number"
 
 export default function MarketplacePage() {
   const { ecoPoints, redeemReward } = useEcoStore()
@@ -27,7 +28,7 @@ export default function MarketplacePage() {
           <div>
             <p className="text-sm font-medium text-green-100">Seu saldo atual</p>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-bold">{ecoPoints}</span>
+              <span className="text-4xl font-bold"><AnimatedNumber value={ecoPoints} /></span>
               <span className="text-sm font-medium">EcoPoints</span>
             </div>
           </div>
