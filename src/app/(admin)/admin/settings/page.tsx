@@ -73,8 +73,8 @@ export default function SettingsPage() {
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-bold text-gray-700">Logo da Empresa</label>
                   <div className="flex items-center gap-6">
-                    <div className="w-20 h-20 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center p-2">
-                      <img src="/logo.png" alt="Logo" className="max-w-full max-h-full rounded-md" />
+                    <div className="w-20 h-20 flex items-center justify-center p-0">
+                      <img src="/logo.png" alt="Logo" className="max-w-full max-h-full rounded-md object-contain" />
                     </div>
                     <Button variant="outline" className="bg-white border-gray-300 text-gray-600">
                       <Upload size={16} className="mr-2" /> Fazer Upload
