@@ -91,10 +91,21 @@ export function LoginForm() {
       </Button>
 
       {/* Footer Segurança */}
-      <div className="mt-12 flex items-center text-xs text-gray-500 max-w-[250px] text-center gap-2">
+      <div className="mt-8 flex items-center text-xs text-gray-500 max-w-[250px] text-center gap-2">
         <ShieldCheck size={24} className="text-gray-400 flex-shrink-0" />
         <p>Seus dados estão protegidos com criptografia de ponta a ponta.</p>
       </div>
+
+      <button 
+        type="button"
+        onClick={() => {
+          setIsLoading(true);
+          setTimeout(() => router.push("/admin/dashboard"), 1000);
+        }}
+        className="mt-6 text-xs text-gray-400 hover:text-gray-600 transition-colors underline-offset-4 hover:underline"
+      >
+        Acesso Restrito: Diretoria ESG / Admin
+      </button>
     </div>
   )
 }
