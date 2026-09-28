@@ -16,14 +16,14 @@ export default function ActivitiesPage() {
       title: "Gestão de Resíduos",
       description: "Ganhe até 30 EcoPoints por descarte correto",
       icon: Recycle,
-      link: "#"
+      link: "/activities/waste"
     },
     {
       id: "energy",
       title: "Home Office Sustentável",
       description: "Valide sua economia de energia",
       icon: Plug,
-      link: "#"
+      link: "/activities/energy"
     }
   ]
 

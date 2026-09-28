@@ -8,7 +8,12 @@ import { useEcoStore } from "@/shared/store/use-eco-store"
 
 type ValidationState = "idle" | "uploading" | "processing" | "success" | "error"
 
-export function CameraUploader() {
+interface CameraUploaderProps {
+  activityName?: string;
+  points?: number;
+}
+
+export function CameraUploader({ activityName = "Sustentável", points = 50 }: CameraUploaderProps = {}) {
   const [state, setState] = useState<ValidationState>("idle")
   const { addEcoPoints } = useEcoStore()
   const router = useRouter()
@@ -23,7 +28,7 @@ export function CameraUploader() {
       // Simula o processamento do Gatekeeper Ollama + Gemini 3.5 demorando uns segundos
       setTimeout(() => {
         setState("success")
-        addEcoPoints(50, 1.2) // Soma na store global
+        addEcoPoints(points, 1.2) // Soma na store global
       }, 3000)
     }, 1000)
   }
@@ -35,7 +40,7 @@ export function CameraUploader() {
           <CheckCircle size={64} className="text-[#00a859]" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Evidência Validada com Sucesso!</h2>
-        <p className="text-lg text-[#00a859] font-bold mb-6">+50 EcoPoints Acumulados</p>
+        <p className="text-lg text-[#00a859] font-bold mb-6">+{points} EcoPoints Acumulados</p>
         
         <div className="bg-white border border-gray-200 rounded-xl w-full text-left p-4 mb-6 shadow-sm">
           <div className="flex items-center gap-2 mb-4 border-b border-gray-100 pb-2">
@@ -43,7 +48,7 @@ export function CameraUploader() {
             <span className="font-semibold text-gray-700">Log de Validação por IA</span>
           </div>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between"><span className="text-gray-500">Tipo:</span><span className="font-medium">Transporte Público Metrô</span></div>
+            <div className="flex justify-between"><span className="text-gray-500">Tipo:</span><span className="font-medium text-right max-w-[200px]">{activityName}</span></div>
             <div className="flex justify-between"><span className="text-gray-500">Data:</span><span className="font-medium">Hoje</span></div>
             <div className="flex justify-between"><span className="text-gray-500">Fraude:</span><span className="font-medium text-[#00a859]">Não Detectada</span></div>
           </div>
