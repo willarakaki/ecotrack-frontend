@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { CopilotWidget } from "@/domains/copilot/ui/copilot-widget"
 import { Home, Leaf, Gift, BarChart2, User, Bell } from "lucide-react"
 import { cn } from "./button"
 
@@ -76,6 +77,9 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
+        
+        {/* Copiloto Flutuante Global */}
+        <CopilotWidget />
 
         {/* 
           Bottom Navigation (Mobile)
