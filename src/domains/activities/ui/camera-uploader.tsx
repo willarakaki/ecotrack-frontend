@@ -28,7 +28,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
       // Simula o processamento do Gatekeeper Ollama + Gemini 3.5 demorando uns segundos
       setTimeout(() => {
         setState("success")
-        addEcoPoints(points, 1.2) // Soma na store global
+        addEcoPoints(points, 1.2, activityName) // Soma na store global e gera item no feed
       }, 3000)
     }, 1000)
   }

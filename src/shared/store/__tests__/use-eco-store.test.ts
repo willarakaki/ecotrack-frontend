@@ -22,7 +22,7 @@ describe("useEcoStore - Zustand Global State", () => {
     const { addEcoPoints } = useEcoStore.getState()
     
     // Simula validação de um bilhete de transporte via Kafka
-    addEcoPoints(5, 1.2)
+    addEcoPoints(5, 1.2, "Teste")
     
     const newState = useEcoStore.getState()
     expect(newState.ecoPoints).toBe(1500) // 1495 + 5
@@ -42,7 +42,7 @@ describe("useEcoStore - Zustand Global State", () => {
     expect(failIfood).toBe(false)
     
     // Adicionamos 5 pontos simulando 1 bilhete validado
-    useEcoStore.getState().addEcoPoints(5, 0)
+    useEcoStore.getState().addEcoPoints(5, 0, "Teste")
     
     // Agora resgata o iFood com 1500 pontos exatos
     const successResult = useEcoStore.getState().redeemReward(1500, "Cupom R$ 15 iFood")

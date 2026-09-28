@@ -21,8 +21,17 @@ export default function ProfilePage() {
             <Settings size={20} />
           </Button>
         </Link>
-        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-[#00a859] border-2 border-green-100">
-          <User size={40} />
+        <div className="relative">
+          <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-[#00a859] border-2 border-green-100">
+            <User size={40} />
+          </div>
+          <button 
+            className="absolute bottom-0 right-0 bg-white border border-gray-200 shadow-sm p-1 rounded-full text-gray-600 hover:text-[#00a859] transition-colors"
+            title="Editar Foto"
+            onClick={() => alert("Upload de foto será conectado ao S3 no Backend.")}
+          >
+            <User size={12} className="m-0.5" />
+          </button>
         </div>
         <div>
           <h2 className="text-xl font-bold text-gray-900">Willian Arakaki</h2>

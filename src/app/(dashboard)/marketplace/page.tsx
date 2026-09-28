@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { Leaf, Calendar, Info, ChevronRight, Gift, Coffee, Headphones, CheckCircle, Ticket } from "lucide-react"
+import { Leaf, Calendar, Info, ChevronRight, Gift, Coffee, Headphones, CheckCircle, Ticket, Target } from "lucide-react"
 import { useEcoStore } from "@/shared/store/use-eco-store"
 import { Button } from "@/shared/ui/button"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
@@ -105,13 +105,26 @@ export default function MarketplacePage() {
                 <Leaf size={14} />
                 {reward.points}
               </div>
-              <Button 
-                size="sm"
-                className="bg-gray-900 text-white hover:bg-gray-800 font-semibold rounded-lg px-6" 
-                onClick={() => handleRedeem(reward.points, reward.name)}
-              >
-                Resgatar
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm"
+                  variant="outline"
+                  className="text-xs text-gray-500 font-semibold"
+                  onClick={() => {
+                    useEcoStore.getState().setActiveGoal(reward.name, reward.points)
+                    alert(`Meta definida: ${reward.name}! Acompanhe seu progresso na aba Início.`)
+                  }}
+                >
+                  <Target size={14} className="mr-1" /> Meta
+                </Button>
+                <Button 
+                  size="sm"
+                  className="bg-gray-900 text-white hover:bg-gray-800 font-semibold rounded-lg" 
+                  onClick={() => handleRedeem(reward.points, reward.name)}
+                >
+                  Resgatar
+                </Button>
+              </div>
             </div>
           </div>
         ))}
