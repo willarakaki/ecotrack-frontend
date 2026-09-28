@@ -32,7 +32,7 @@ describe("useEcoStore - Zustand Global State", () => {
     const { redeemReward } = useEcoStore.getState()
     
     // Resgata o cupom de R$ 20 do Uber (custa 150 pontos - Atualmente temos 50)
-    const failResult = redeemReward(150)
+    const failResult = redeemReward(150, "Cupom R$ 20 Uber")
     expect(failResult).toBe(false)
     expect(useEcoStore.getState().ecoPoints).toBe(50) // Saldo não pode mudar
     
@@ -40,8 +40,12 @@ describe("useEcoStore - Zustand Global State", () => {
     useEcoStore.setState({ ecoPoints: 600 })
     
     // Resgata o 1 Day-off (custa 500)
-    const successResult = useEcoStore.getState().redeemReward(500)
+    const successResult = useEcoStore.getState().redeemReward(500, "1 Day-off (Férias Adicionais)")
     expect(successResult).toBe(true)
     expect(useEcoStore.getState().ecoPoints).toBe(100) // 600 - 500 = 100
+    
+    // Valida se foi salvo na lista
+    expect(useEcoStore.getState().redeemedRewards.length).toBe(1)
+    expect(useEcoStore.getState().redeemedRewards[0].name).toBe("1 Day-off (Férias Adicionais)")
   })
 })
