@@ -24,12 +24,14 @@ interface EcoStore {
   redeemedRewards: RedeemedReward[]
   feed: FeedItem[]
   activeGoal: { name: string; cost: number } | null
+  dailyQuizCompleted: boolean
   
   addEcoPoints: (points: number, carbon: number, activityName: string) => void
   redeemReward: (cost: number, rewardName: string) => boolean
   setActiveGoal: (name: string, cost: number) => void
   sendPeerPraise: (receiver: string, points: number, message: string, tag: string) => boolean
   toggleLikeFeedItem: (id: string) => void
+  completeDailyQuiz: (points: number) => void
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
@@ -38,6 +40,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   companyCarbonSaved: 1.4,
   redeemedRewards: [],
   activeGoal: null,
+  dailyQuizCompleted: false,
   feed: [
     {
       id: "1",
@@ -130,5 +133,12 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
       }
       return item
     })
-  }))
+  })),
+
+  completeDailyQuiz: (points) => {
+    if (!get().dailyQuizCompleted) {
+      set({ dailyQuizCompleted: true })
+      get().addEcoPoints(points, 0, "Quiz Diário")
+    }
+  }
 }))
