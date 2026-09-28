@@ -14,7 +14,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Visão Geral", path: "/admin/dashboard", icon: BarChart3 },
     { label: "Auditoria Escopo 3", path: "/admin/audit", icon: FileText },
     { label: "Engajamento", path: "/admin/engagement", icon: Users },
-    { label: "Metas e ESG", path: "#", icon: Leaf },
+    { label: "Metas e ESG", path: "/admin/goals", icon: Leaf },
     { label: "Configurações", path: "#", icon: Settings },
   ]
 
