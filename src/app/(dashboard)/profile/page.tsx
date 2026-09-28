@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { User, Mail, Building, Shield, LogOut, Settings } from "lucide-react"
+import { User, Mail, Building, Shield, LogOut, Settings, Award, Star, Zap, Coffee } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import Link from "next/link"
 
@@ -39,6 +39,36 @@ export default function ProfilePage() {
           <div className="inline-flex items-center gap-1 mt-2 bg-green-50 text-[#00a859] px-2 py-1 rounded-md text-xs font-semibold">
             <Building size={12} />
             <span>Engenharia de Software</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
+          <Award size={20} className="text-yellow-500" /> Quadro de Medalhas
+        </h3>
+        
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-16 h-16 rounded-2xl bg-yellow-100 border-2 border-yellow-400 flex items-center justify-center shadow-sm relative">
+              <Star size={32} className="text-yellow-500 fill-yellow-500" />
+              <div className="absolute -bottom-2 bg-yellow-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full border border-white">NV. 2</div>
+            </div>
+            <span className="text-xs font-bold text-gray-900 text-center leading-tight">Estrela ESG</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-16 h-16 rounded-2xl bg-orange-100 border-2 border-orange-400 flex items-center justify-center shadow-sm relative">
+              <Zap size={32} className="text-orange-500 fill-orange-500" />
+            </div>
+            <span className="text-xs font-bold text-gray-900 text-center leading-tight">10 Dias de Fogo</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 opacity-40 grayscale">
+            <div className="w-16 h-16 rounded-2xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center">
+              <Coffee size={32} className="text-gray-500" />
+            </div>
+            <span className="text-xs font-bold text-gray-600 text-center leading-tight">Zero Copos</span>
           </div>
         </div>
       </div>

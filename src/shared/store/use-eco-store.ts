@@ -26,6 +26,7 @@ interface EcoStore {
   activeGoal: { name: string; cost: number } | null
   dailyQuizCompleted: boolean
   streakDays: number
+  acceptedWeeklyChallenge: boolean | null
   
   addEcoPoints: (points: number, carbon: number, activityName: string) => void
   redeemReward: (cost: number, rewardName: string) => boolean
@@ -33,6 +34,7 @@ interface EcoStore {
   sendPeerPraise: (receiver: string, points: number, message: string, tag: string) => boolean
   toggleLikeFeedItem: (id: string) => void
   completeDailyQuiz: (points: number) => void
+  setWeeklyChallenge: (status: boolean | null) => void
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
@@ -43,6 +45,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   activeGoal: null,
   dailyQuizCompleted: false,
   streakDays: 12,
+  acceptedWeeklyChallenge: null,
   feed: [
     {
       id: "1",
@@ -142,5 +145,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
       set({ dailyQuizCompleted: true })
       get().addEcoPoints(points, 0, "Quiz Diário")
     }
-  }
+  },
+
+  setWeeklyChallenge: (status) => set({ acceptedWeeklyChallenge: status })
 }))

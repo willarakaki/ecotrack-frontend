@@ -2,11 +2,12 @@
 import React, { useState } from "react"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
 import { useEcoStore } from "@/shared/store/use-eco-store"
-import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight, Flame } from "lucide-react"
+import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight, Flame, Bike } from "lucide-react"
 import { Button } from "@/shared/ui/button"
+import Link from "next/link"
 
 export default function DashboardPage() {
-  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz, streakDays } = useEcoStore()
+  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz, streakDays, acceptedWeeklyChallenge, setWeeklyChallenge } = useEcoStore()
   const [isPraiseModalOpen, setIsPraiseModalOpen] = useState(false)
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
   
@@ -84,12 +85,43 @@ export default function DashboardPage() {
       </div>
 
       {/* Campanhas e Desafios */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 text-white shadow-sm flex flex-col gap-2 relative overflow-hidden">
-        <Zap size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
-        <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded-md w-fit uppercase tracking-wider">Desafio da Semana</span>
-        <h3 className="font-bold text-lg mt-1">Semana Sem Papel 🌳</h3>
-        <p className="text-blue-100 text-sm">Não imprima nada até sexta-feira e ganhe +50 pts bônus de equipe!</p>
-      </div>
+      {acceptedWeeklyChallenge !== false && (
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 text-white shadow-sm flex flex-col gap-3 relative overflow-hidden">
+          <Bike size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
+          <div className="flex justify-between items-start z-10">
+            <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wider">Desafio da Semana</span>
+          </div>
+          
+          <div className="z-10">
+            <h3 className="font-bold text-lg mt-1">Mobilidade Ativa 🚴</h3>
+            <p className="text-blue-100 text-sm mt-1">Vá de Bike ou Metrô 3 dias seguidos nesta semana e ganhe <strong className="text-yellow-300">+200 pts bônus</strong>!</p>
+          </div>
+
+          {acceptedWeeklyChallenge === null ? (
+            <div className="flex gap-2 mt-2 z-10">
+              <Button onClick={() => setWeeklyChallenge(true)} className="flex-1 bg-white text-indigo-700 hover:bg-gray-100 font-bold">Aceitar Desafio</Button>
+              <Button onClick={() => setWeeklyChallenge(false)} variant="outline" className="flex-1 text-white border-white/30 hover:bg-white/10">Agora Não</Button>
+            </div>
+          ) : (
+            <div className="mt-2 z-10 flex flex-col gap-2">
+              <div>
+                <div className="flex justify-between text-xs font-bold mb-1">
+                  <span>Progresso</span>
+                  <span>1/3 Dias</span>
+                </div>
+                <div className="w-full bg-black/20 rounded-full h-2">
+                  <div className="bg-yellow-400 h-2 rounded-full w-1/3"></div>
+                </div>
+              </div>
+              <Link href="/challenges">
+                <Button variant="ghost" className="w-full text-white hover:bg-white/10 hover:text-white mt-1 h-8 text-xs font-bold border border-white/20">
+                  Ver todas as Missões
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Micro-aprendizagem (Quiz) */}
       {!dailyQuizCompleted && (
