@@ -110,34 +110,62 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Bars */}
-            <div className="flex flex-col items-center gap-2 flex-1 group z-20">
+            <div className="flex flex-col items-center gap-2 flex-1 group z-20 relative">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-gray-100 px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-40 flex flex-col items-center gap-1 whitespace-nowrap pointer-events-none">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Junho</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-slate-300"></div><span className="text-xs font-medium text-slate-600">R$ 2k</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-indigo-500"></div><span className="text-xs font-bold text-indigo-700">R$ 3k</span></div>
+                </div>
+              </div>
               <div className="flex items-end gap-1 w-full justify-center h-full">
-                <div className="w-8 bg-slate-200 rounded-t-md h-[30%] group-hover:bg-slate-300 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-slate-600 bg-white shadow-sm border border-slate-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-medium z-30">R$2k</span></div>
-                <div className="w-8 bg-indigo-500 rounded-t-md h-[40%] group-hover:bg-indigo-600 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-indigo-700 bg-white shadow-sm border border-indigo-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-bold z-30">R$3k</span></div>
+                <div className="w-8 md:w-12 bg-slate-200 rounded-t-md h-[30%] group-hover:bg-slate-300 transition-colors"></div>
+                <div className="w-8 md:w-12 bg-indigo-500 rounded-t-md h-[40%] group-hover:bg-indigo-600 transition-colors"></div>
               </div>
               <span className="text-xs text-gray-500 font-medium">Jun</span>
             </div>
 
-            <div className="flex flex-col items-center gap-2 flex-1 group z-20">
+            <div className="flex flex-col items-center gap-2 flex-1 group z-20 relative">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-gray-100 px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-40 flex flex-col items-center gap-1 whitespace-nowrap pointer-events-none">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Julho</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-slate-300"></div><span className="text-xs font-medium text-slate-600">R$ 2.5k</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-indigo-500"></div><span className="text-xs font-bold text-indigo-700">R$ 4.5k</span></div>
+                </div>
+              </div>
               <div className="flex items-end gap-1 w-full justify-center h-full">
-                <div className="w-8 bg-slate-200 rounded-t-md h-[35%] group-hover:bg-slate-300 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-slate-600 bg-white shadow-sm border border-slate-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-medium z-30">R$2.5k</span></div>
-                <div className="w-8 bg-indigo-500 rounded-t-md h-[55%] group-hover:bg-indigo-600 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-indigo-700 bg-white shadow-sm border border-indigo-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-bold z-30">R$4.5k</span></div>
+                <div className="w-8 md:w-12 bg-slate-200 rounded-t-md h-[35%] group-hover:bg-slate-300 transition-colors"></div>
+                <div className="w-8 md:w-12 bg-indigo-500 rounded-t-md h-[55%] group-hover:bg-indigo-600 transition-colors"></div>
               </div>
               <span className="text-xs text-gray-500 font-medium">Jul</span>
             </div>
 
-            <div className="flex flex-col items-center gap-2 flex-1 group z-20">
+            <div className="flex flex-col items-center gap-2 flex-1 group z-20 relative">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-gray-100 px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-40 flex flex-col items-center gap-1 whitespace-nowrap pointer-events-none">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Agosto</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-slate-300"></div><span className="text-xs font-medium text-slate-600">R$ 4k</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-indigo-500"></div><span className="text-xs font-bold text-indigo-700">R$ 6k</span></div>
+                </div>
+              </div>
               <div className="flex items-end gap-1 w-full justify-center h-full">
-                <div className="w-8 bg-slate-200 rounded-t-md h-[50%] group-hover:bg-slate-300 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-slate-600 bg-white shadow-sm border border-slate-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-medium z-30">R$4k</span></div>
-                <div className="w-8 bg-indigo-500 rounded-t-md h-[75%] group-hover:bg-indigo-600 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-indigo-700 bg-white shadow-sm border border-indigo-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-bold z-30">R$6k</span></div>
+                <div className="w-8 md:w-12 bg-slate-200 rounded-t-md h-[50%] group-hover:bg-slate-300 transition-colors"></div>
+                <div className="w-8 md:w-12 bg-indigo-500 rounded-t-md h-[75%] group-hover:bg-indigo-600 transition-colors"></div>
               </div>
               <span className="text-xs text-gray-500 font-medium">Ago</span>
             </div>
 
-            <div className="flex flex-col items-center gap-2 flex-1 group z-20">
+            <div className="flex flex-col items-center gap-2 flex-1 group z-20 relative">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white shadow-lg border border-emerald-200 px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-40 flex flex-col items-center gap-1 whitespace-nowrap pointer-events-none">
+                <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider mb-0.5">Setembro</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-slate-300"></div><span className="text-xs font-medium text-slate-600">R$ 5k</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-emerald-500"></div><span className="text-xs font-bold text-emerald-700">R$ 8.5k</span></div>
+                </div>
+              </div>
               <div className="flex items-end gap-1 w-full justify-center h-full">
-                <div className="w-8 bg-slate-200 rounded-t-md h-[60%] group-hover:bg-slate-300 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-slate-600 bg-white shadow-sm border border-slate-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-medium z-30">R$5k</span></div>
-                <div className="w-8 bg-emerald-500 rounded-t-md h-[95%] group-hover:bg-emerald-600 transition-colors relative"><span className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-emerald-700 bg-white shadow-sm border border-emerald-100 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 font-bold z-30">R$8.5k</span></div>
+                <div className="w-8 md:w-12 bg-slate-200 rounded-t-md h-[60%] group-hover:bg-slate-300 transition-colors"></div>
+                <div className="w-8 md:w-12 bg-emerald-500 rounded-t-md h-[95%] group-hover:bg-emerald-600 transition-colors"></div>
               </div>
               <span className="text-xs text-gray-900 font-bold">Set</span>
             </div>
