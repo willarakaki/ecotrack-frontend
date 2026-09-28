@@ -73,7 +73,7 @@ export default function SettingsPage() {
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-bold text-gray-700">Logo da Empresa</label>
                   <div className="flex items-center gap-6">
-                    <div className="w-20 h-20 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center p-2">
+                    <div className="w-20 h-20 bg-black border border-gray-200 rounded-xl flex items-center justify-center p-2">
                       <img src="/logo.jpg" alt="Logo" className="max-w-full max-h-full rounded-md" />
                     </div>
                     <Button variant="outline" className="bg-white border-gray-300 text-gray-600">

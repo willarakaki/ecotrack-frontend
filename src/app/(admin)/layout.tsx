@@ -23,7 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar - Fixa à esquerda */}
       <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex border-r border-slate-800">
         <div className="p-6 flex items-center gap-3 border-b border-slate-800">
-          <div className="bg-white rounded-md p-1">
+          <div className="bg-black rounded-md p-1">
             <Image src="/logo.jpg" alt="EcoTrack Logo" width={24} height={24} className="rounded-sm" />
           </div>
           <span className="font-bold text-lg text-white tracking-tight">EcoTrack Admin</span>

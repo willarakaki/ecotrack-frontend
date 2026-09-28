@@ -27,7 +27,7 @@ export function LoginForm() {
     <div className="w-full max-w-md mx-auto flex flex-col items-center px-4">
       {/* Logo e Cabeçalho */}
       <div className="flex flex-col items-center mb-10 text-center">
-        <div className="mb-4 rounded-xl overflow-hidden shadow-sm">
+        <div className="mb-4 rounded-xl overflow-hidden shadow-sm bg-black p-2">
           <Image src="/logo.jpg" alt="EcoTrack AI Logo" width={100} height={100} priority />
         </div>
         <p className="text-gray-600 mt-2 text-sm max-w-[280px]">
