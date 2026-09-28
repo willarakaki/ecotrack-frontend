@@ -21,7 +21,7 @@ describe("CameraUploader Component", () => {
     render(<CameraUploader />)
     
     expect(screen.getByText(/Tire uma foto nítida/i)).toBeInTheDocument()
-    const fileInput = screen.getByLabelText(/Fazer upload de comprovante/i)
+    const fileInput = screen.getByLabelText(/Tirar Foto do Comprovante/i)
     
     // Simula a seleção de um arquivo
     fireEvent.change(fileInput, { target: { files: [new File(['(⌐□_□)'], 'ticket.png', { type: 'image/png' })] } })
@@ -30,7 +30,7 @@ describe("CameraUploader Component", () => {
       jest.advanceTimersByTime(1000)
     })
     
-    expect(screen.getByRole("button", { name: /Processando Validação por IA/i })).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: /Processando por IA/i })).toBeInTheDocument()
     expect(screen.getByText("METRÔ SP")).toBeInTheDocument()
     
     jest.useRealTimers()
@@ -40,7 +40,7 @@ describe("CameraUploader Component", () => {
     jest.useFakeTimers()
     render(<CameraUploader />)
     
-    const fileInput = screen.getByLabelText(/Fazer upload de comprovante/i)
+    const fileInput = screen.getByLabelText(/Tirar Foto do Comprovante/i)
     fireEvent.change(fileInput, { target: { files: [new File(['test'], 'test.jpg', { type: 'image/jpeg' })] } })
     
     act(() => {
