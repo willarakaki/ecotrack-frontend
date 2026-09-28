@@ -1,37 +1,46 @@
 import { create } from "zustand"
 
+export interface RedeemedReward {
+  id: string
+  name: string
+  date: string
+}
+
 interface EcoStore {
-  // Estado
   ecoPoints: number
   individualCarbonSaved: number
   companyCarbonSaved: number
+  redeemedRewards: RedeemedReward[]
   
-  // Ações de Negócio
   addEcoPoints: (points: number, carbon: number) => void
-  redeemReward: (cost: number) => boolean
+  redeemReward: (cost: number, rewardName: string) => boolean
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
-  // Valores Iniciais (Mock baseados no Figma)
   ecoPoints: 50,
   individualCarbonSaved: 24.5,
-  companyCarbonSaved: 1.4, // Toneladas
+  companyCarbonSaved: 1.4,
+  redeemedRewards: [],
   
-  // Lógica Otimista de Adicionar Pontos (Chamado após sucesso no Kafka)
   addEcoPoints: (points, carbon) => set((state) => ({
     ecoPoints: state.ecoPoints + points,
     individualCarbonSaved: Number((state.individualCarbonSaved + carbon).toFixed(2))
   })),
 
-  // Lógica Otimista de Resgate no Marketplace
-  redeemReward: (cost: number) => {
+  redeemReward: (cost: number, rewardName: string) => {
     const currentPoints = get().ecoPoints
     
     if (currentPoints >= cost) {
-      set({ ecoPoints: currentPoints - cost })
-      return true // Resgate com sucesso
+      set({ 
+        ecoPoints: currentPoints - cost,
+        redeemedRewards: [
+          { id: Date.now().toString(), name: rewardName, date: new Date().toLocaleDateString("pt-BR") },
+          ...get().redeemedRewards
+        ]
+      })
+      return true
     }
     
-    return false // Saldo insuficiente
+    return false
   }
 }))
