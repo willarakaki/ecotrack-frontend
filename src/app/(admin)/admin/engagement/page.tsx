@@ -74,7 +74,7 @@ export default function EngagementPage() {
           </div>
           <div className="flex items-baseline gap-2 mt-1">
             <h2 className="text-3xl font-bold text-gray-900">145</h2>
-            <span className="text-gray-400 text-xs font-medium">Usuários > 5 dias</span>
+            <span className="text-gray-400 text-xs font-medium">Usuários &gt; 5 dias</span>
           </div>
         </div>
       </div>
