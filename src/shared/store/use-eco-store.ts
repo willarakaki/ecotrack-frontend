@@ -25,6 +25,7 @@ interface EcoStore {
   feed: FeedItem[]
   activeGoal: { name: string; cost: number } | null
   dailyQuizCompleted: boolean
+  streakDays: number
   
   addEcoPoints: (points: number, carbon: number, activityName: string) => void
   redeemReward: (cost: number, rewardName: string) => boolean
@@ -41,6 +42,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   redeemedRewards: [],
   activeGoal: null,
   dailyQuizCompleted: false,
+  streakDays: 12,
   feed: [
     {
       id: "1",
