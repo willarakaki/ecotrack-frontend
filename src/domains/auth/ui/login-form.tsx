@@ -27,8 +27,8 @@ export function LoginForm() {
     <div className="w-full max-w-md mx-auto flex flex-col items-center px-4">
       {/* Logo e Cabeçalho */}
       <div className="flex flex-col items-center mb-10 text-center">
-        <div className="mb-4 rounded-xl overflow-hidden shadow-sm">
-          <Image src="/logo.jpg" alt="EcoTrack AI Logo" width={100} height={100} priority />
+        <div className="mb-4">
+          <Image src="/logo.png" alt="EcoTrack AI Logo" width={100} height={100} priority className="object-contain" unoptimized />
         </div>
         <p className="text-gray-600 mt-2 text-sm max-w-[280px]">
           Inteligência que transforma ações em impacto positivo.

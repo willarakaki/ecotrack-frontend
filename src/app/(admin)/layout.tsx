@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Auditoria Escopo 3", path: "/admin/audit", icon: FileText },
     { label: "Engajamento", path: "/admin/engagement", icon: Users },
     { label: "Metas e ESG", path: "/admin/goals", icon: Leaf },
-    { label: "Configurações", path: "#", icon: Settings },
+    { label: "Configurações", path: "/admin/settings", icon: Settings },
   ]
 
   return (
@@ -23,9 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar - Fixa à esquerda */}
       <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col hidden md:flex border-r border-slate-800">
         <div className="p-6 flex items-center gap-3 border-b border-slate-800">
-          <div className="bg-white rounded-md p-1">
-            <Image src="/logo.jpg" alt="EcoTrack Logo" width={24} height={24} className="rounded-sm" />
-          </div>
+          <Image src="/logo.png" alt="EcoTrack Logo" width={32} height={32} unoptimized />
           <span className="font-bold text-lg text-white tracking-tight">EcoTrack Admin</span>
         </div>
         
