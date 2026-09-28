@@ -54,4 +54,4 @@ O projeto será dividido em **4 Sprints** principais. Ao final de cada Sprint, a
 - PR: `#4 Sustainability AI Copilot`
 
 ## Status Atual
-Iniciando a **Sprint 2: Dashboard e Gamificação**.
+Iniciando a **Sprint 3: Atividades e Validação Assíncrona (Core ESG)**.

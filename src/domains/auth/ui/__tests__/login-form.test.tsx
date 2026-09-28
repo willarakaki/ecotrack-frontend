@@ -13,7 +13,7 @@ describe("LoginForm Component", () => {
   it("deve renderizar os campos de email e senha, logo e botões", () => {
     render(<LoginForm />)
     
-    expect(screen.getByText("EcoTrack AI")).toBeInTheDocument()
+    expect(screen.getByAltText("EcoTrack AI Logo")).toBeInTheDocument()
     expect(screen.getByPlaceholderText("E-mail Corporativo")).toBeInTheDocument()
     expect(screen.getByPlaceholderText("Senha")).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Entrar" })).toBeInTheDocument()
