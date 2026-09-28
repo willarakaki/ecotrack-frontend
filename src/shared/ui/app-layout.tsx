@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { CopilotWidget } from "@/domains/copilot/ui/copilot-widget"
-import { Home, Leaf, Gift, BarChart2, User, Bell } from "lucide-react"
+import { Home, Leaf, Gift, Target, User, Bell, BarChart2 } from "lucide-react"
 import { cn } from "./button"
 
 interface AppLayoutProps {
@@ -18,6 +18,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
     { label: "Atividades", path: "/activities", icon: Leaf },
     { label: "Recompensas", path: "/marketplace", icon: Gift },
     { label: "Impacto", path: "/impact", icon: BarChart2 },
+    { label: "Missões", path: "/challenges", icon: Target },
     { label: "Perfil", path: "/profile", icon: User },
   ]
 
@@ -43,10 +44,6 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row w-full mx-auto max-w-7xl shadow-sm">
-      {/* 
-        Sidebar (Desktop) 
-        Fica escondida em telas menores que 'md' (768px).
-      */}
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200">
         <div className="p-6 flex items-center gap-3">
           <Image src="/logo.jpg" alt="EcoTrack Logo" width={32} height={32} className="rounded-md" />
@@ -75,9 +72,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
         </nav>
       </aside>
 
-      {/* Container Principal */}
       <div className="flex-1 flex flex-col min-h-screen pb-20 md:pb-0 relative">
-        {/* Header Mobile Opcional */}
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex items-center gap-2">
             <Image src="/logo.jpg" alt="EcoTrack Logo" width={28} height={28} className="rounded-md" />
@@ -92,7 +87,6 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
           </button>
         </header>
 
-        {/* Header Desktop */}
         <header className="hidden md:flex justify-end p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
            <button 
              className="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition-colors relative"
@@ -105,18 +99,12 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
 
         {showNotifications && <NotificationsPanel />}
 
-        {/* Conteúdo da Página */}
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
         
-        {/* Copiloto Flutuante Global */}
         <CopilotWidget />
 
-        {/* 
-          Bottom Navigation (Mobile)
-          Fica fixa no fundo em telas pequenas, escondida no Desktop.
-        */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 flex justify-between items-center z-50 pb-safe">
           {navItems.map((item) => {
             const isActive = currentPath === item.path

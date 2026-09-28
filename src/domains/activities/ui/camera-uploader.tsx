@@ -81,16 +81,14 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
 
       {state === "processing" && (
         <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-3xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
-          {/* Mock do ticket sendo escaneado */}
           <div className="w-48 h-64 bg-white border border-gray-200 rounded-lg shadow-sm relative overflow-hidden flex flex-col items-center pt-8">
             <div className="w-12 h-12 rounded-full border-2 border-gray-900 flex items-center justify-center font-bold text-xl mb-4">M</div>
             <p className="text-xs font-bold">METRÔ SP</p>
             <p className="text-[10px] text-gray-500 mb-4">SISTEMA DE TRANSPORTE</p>
             <div className="w-3/4 border-t border-gray-300 mb-4"></div>
             <p className="text-xs font-bold mb-8">BILHETE UNITÁRIO</p>
-            <div className="w-24 h-24 bg-gray-200"></div> {/* QR Code placeholder */}
+            <div className="w-24 h-24 bg-gray-200"></div>
             
-            {/* Scanner line animada */}
             <div className="absolute top-0 left-0 w-full h-1 bg-[#00a859] shadow-[0_0_15px_rgba(0,168,89,0.8)] animate-[scan_2s_ease-in-out_infinite]"></div>
           </div>
         </div>
@@ -98,36 +96,56 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
 
       {state === "idle" && (
         <>
-          <div className="relative w-full">
-            <input 
-              type="file" 
-              accept="image/*,application/pdf" 
-              capture="environment"
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              onChange={(e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                  handleSimulateUpload()
-                }
-              }}
-              aria-label="Fazer upload de comprovante"
-            />
-            <Button size="lg" className="w-full text-base relative pointer-events-none z-0">
-              <Camera className="mr-2" size={20} />
-              Enviar Comprovante ou Print
-            </Button>
+          <div className="flex flex-col gap-3">
+            <div className="relative w-full">
+              <input 
+                type="file" 
+                accept="image/*" 
+                capture="environment"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    handleSimulateUpload()
+                  }
+                }}
+                aria-label="Tirar Foto do Comprovante"
+              />
+              <Button size="lg" className="w-full text-base relative pointer-events-none z-0 bg-[#00a859] hover:bg-[#00904a] text-white font-bold border-4 border-green-700/20">
+                <Camera className="mr-2" size={20} />
+                Tirar Foto
+              </Button>
+            </div>
+
+            <div className="relative w-full">
+              <input 
+                type="file" 
+                accept="image/*,application/pdf" 
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    handleSimulateUpload()
+                  }
+                }}
+                aria-label="Fazer Upload da Galeria"
+              />
+              <Button size="lg" variant="outline" className="w-full text-base relative pointer-events-none z-0 border-gray-300 font-bold text-gray-700">
+                <Ticket className="mr-2 text-gray-500" size={20} />
+                Upload da Galeria
+              </Button>
+            </div>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-4 flex gap-3 text-gray-600 text-xs">
+          <div className="bg-gray-100 rounded-xl p-4 flex gap-3 text-gray-600 text-xs mt-2">
             <Info size={16} className="flex-shrink-0 mt-0.5" />
-            <p>Aceitamos foto de ticket físico, prints de apps de transporte (TOP, Uber, etc.) ou o extrato do seu cartão de transporte.</p>
+            <p>Aceitamos foto de ticket físico, prints de apps de transporte (TOP, Uber, etc.) ou o extrato do seu cartão.</p>
           </div>
         </>
       )}
 
       {state === "processing" && (
-        <Button size="lg" className="w-full bg-gray-200 text-gray-700 hover:bg-gray-200 cursor-wait">
+        <Button size="lg" className="w-full bg-gray-200 text-gray-700 hover:bg-gray-200 cursor-wait font-bold">
           <Loader2 className="mr-2 animate-spin" size={20} />
-          Processando Validação por IA...
+          Processando por IA...
         </Button>
       )}
     </div>
