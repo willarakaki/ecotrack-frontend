@@ -2,11 +2,11 @@
 import React, { useState } from "react"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
 import { useEcoStore } from "@/shared/store/use-eco-store"
-import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight } from "lucide-react"
+import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight, Flame } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 
 export default function DashboardPage() {
-  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz } = useEcoStore()
+  const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz, streakDays } = useEcoStore()
   const [isPraiseModalOpen, setIsPraiseModalOpen] = useState(false)
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
   
@@ -31,9 +31,19 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6 p-4 md:p-6 w-full max-w-2xl mx-auto pb-24 relative">
       
       {/* Saudação e Saldo */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Boa tarde, João!</h1>
-        <p className="text-sm text-gray-500">A energia da equipe está em alta hoje.</p>
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Boa tarde, João!</h1>
+          <p className="text-sm text-gray-500">A energia da equipe está em alta hoje.</p>
+        </div>
+        
+        <div className="flex items-center gap-2 bg-orange-50 border border-orange-100 rounded-2xl p-2 px-4 shadow-sm" title="Dias Consecutivos no App">
+          <Flame size={24} className="text-orange-500 fill-orange-500" />
+          <div className="flex flex-col">
+            <span className="text-lg font-bold text-orange-600 leading-none">{streakDays}</span>
+            <span className="text-[10px] uppercase font-bold text-orange-400 leading-none">Dias</span>
+          </div>
+        </div>
       </div>
 
       <div className="bg-[#00a859] rounded-2xl p-6 text-white shadow-sm flex flex-col gap-4">
