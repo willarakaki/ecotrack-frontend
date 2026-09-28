@@ -46,7 +46,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row w-full mx-auto max-w-7xl shadow-sm">
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200">
         <div className="p-6 flex items-center gap-3">
-          <Image src="/logo.png" alt="EcoTrack Logo" width={32} height={32} className="rounded-md" />
+          <Image src="/logo.png" alt="EcoTrack Logo" width={32} height={32} unoptimized />
           <span className="font-bold text-xl tracking-tight text-gray-900">EcoTrack AI</span>
         </div>
         
@@ -75,7 +75,7 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
       <div className="flex-1 flex flex-col min-h-screen pb-20 md:pb-0 relative">
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="EcoTrack Logo" width={28} height={28} className="rounded-md" />
+            <Image src="/logo.png" alt="EcoTrack Logo" width={28} height={28} unoptimized />
             <span className="font-bold text-lg text-gray-900">EcoTrack AI</span>
           </div>
           <button 
