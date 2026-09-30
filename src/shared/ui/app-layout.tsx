@@ -10,6 +10,26 @@ interface AppLayoutProps {
   currentPath?: string
 }
 
+const NotificationsPanel = () => (
+  <div className="absolute right-4 top-16 w-80 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden z-50 animate-in slide-in-from-top-2">
+    <div className="bg-gray-50 border-b border-gray-100 p-4 font-bold text-gray-900">
+      Notificações
+    </div>
+    <div className="flex flex-col max-h-80 overflow-y-auto">
+      <div className="p-4 border-b border-gray-50 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
+        <span className="font-semibold text-sm text-gray-900">EcoPoints creditados!</span>
+        <span className="text-xs text-gray-500">Seu comprovante de mobilidade foi validado. +5 pts.</span>
+        <span className="text-xs text-green-600 font-medium mt-1">Há 10 min</span>
+      </div>
+      <div className="p-4 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
+        <span className="font-semibold text-sm text-gray-900">Resgate efetuado</span>
+        <span className="text-xs text-gray-500">Seu cupom do iFood já está disponível.</span>
+        <span className="text-xs text-green-600 font-medium mt-1">Há 1 hora</span>
+      </div>
+    </div>
+  </div>
+)
+
 export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
   const [showNotifications, setShowNotifications] = useState(false)
 
@@ -21,26 +41,6 @@ export function AppLayout({ children, currentPath = "/home" }: AppLayoutProps) {
     { label: "Missões", path: "/challenges", icon: Target },
     { label: "Perfil", path: "/profile", icon: User },
   ]
-
-  const NotificationsPanel = () => (
-    <div className="absolute right-4 top-16 w-80 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden z-50 animate-in slide-in-from-top-2">
-      <div className="bg-gray-50 border-b border-gray-100 p-4 font-bold text-gray-900">
-        Notificações
-      </div>
-      <div className="flex flex-col max-h-80 overflow-y-auto">
-        <div className="p-4 border-b border-gray-50 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
-          <span className="font-semibold text-sm text-gray-900">EcoPoints creditados!</span>
-          <span className="text-xs text-gray-500">Seu comprovante de mobilidade foi validado. +5 pts.</span>
-          <span className="text-xs text-green-600 font-medium mt-1">Há 10 min</span>
-        </div>
-        <div className="p-4 hover:bg-gray-50 flex flex-col gap-1 cursor-pointer">
-          <span className="font-semibold text-sm text-gray-900">Resgate efetuado</span>
-          <span className="text-xs text-gray-500">Seu cupom do iFood já está disponível.</span>
-          <span className="text-xs text-green-600 font-medium mt-1">Há 1 hora</span>
-        </div>
-      </div>
-    </div>
-  )
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row w-full mx-auto max-w-7xl shadow-sm">

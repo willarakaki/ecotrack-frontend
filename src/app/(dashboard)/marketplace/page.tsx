@@ -12,8 +12,8 @@ export default function MarketplacePage() {
   const [successModal, setSuccessModal] = useState<string | null>(null)
   const [errorModal, setErrorModal] = useState<{ needed: number } | null>(null)
 
-  const handleRedeem = (cost: number, itemName: string) => {
-    const success = redeemReward(cost, itemName)
+  const handleRedeem = async (cost: number, itemName: string) => {
+    const success = await redeemReward(cost, itemName)
     if (success) {
       setSuccessModal(itemName)
       confetti({

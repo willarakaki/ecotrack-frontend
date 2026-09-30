@@ -111,7 +111,7 @@ export default function GoalsPage() {
                 <Leaf size={16} /> Dica Estratégica do Gatekeeper IA
               </div>
               <p className="text-xs text-indigo-600/80 leading-relaxed">
-                A IA detectou que a meta "Net Zero Escopo 3" está atrasada (14%). Recomendamos aumentar a recompensa de <strong>Deslocamento Baixo Carbono</strong> temporariamente para +35 pts para acelerar o engajamento nesta categoria.
+                A IA detectou que a meta &quot;Net Zero Escopo 3&quot; está atrasada (14%). Recomendamos aumentar a recompensa de <strong>Deslocamento Baixo Carbono</strong> temporariamente para +35 pts para acelerar o engajamento nesta categoria.
               </p>
               <button className="self-start text-xs font-bold bg-white text-indigo-700 border border-indigo-200 px-3 py-1.5 rounded-md hover:bg-indigo-100 mt-1 transition-colors shadow-sm">
                 Aplicar Sugestão da IA

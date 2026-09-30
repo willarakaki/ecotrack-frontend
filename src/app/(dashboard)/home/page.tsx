@@ -16,15 +16,15 @@ export default function DashboardPage() {
   const [message, setMessage] = useState("")
   const [tag, setTag] = useState("#Inovação")
 
-  const handleSendPraise = () => {
+  const handleSendPraise = async () => {
     if (!receiver || !message) return
-    const success = sendPeerPraise(receiver, pointsToSend, message, tag)
+    const success = await sendPeerPraise(receiver, pointsToSend, message, tag)
     if (success) {
       setIsPraiseModalOpen(false)
       setReceiver("")
       setMessage("")
     } else {
-      alert("Saldo de pontos insuficiente.")
+      alert("Saldo de pontos insuficiente ou erro na API.")
     }
   }
 
