@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -18,24 +18,53 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
   const { submitEvidence } = useEcoStore()
   const router = useRouter()
 
-  const handleSimulateUpload = async () => {
+  const handleSimulateUpload = async (file: File) => {
     setState("uploading")
     
-    // Simula tempo de upload de rede do arquivo
-    setTimeout(async () => {
-      setState("processing")
-      
-      // Chamada HTTP para a API Java, que devolverá 202 Accepted
-      const success = await submitEvidence(activityName, { points })
-      
-      if (success) {
-        // Redireciona para um estado visual "Em Análise" em vez de sucesso instantâneo
-        setState("success") // Reutilizando a variável state "success" para representar o 202 Accepted visualmente
-      } else {
-        setState("idle")
-        alert("Erro ao enviar evidência.")
+    // Converte e redimensiona a imagem para Base64 para não estourar o limite do Kafka (1MB)
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = async (event) => {
+      const img = new Image()
+      img.src = event.target?.result as string
+      img.onload = async () => {
+        const canvas = document.createElement("canvas")
+                
+        // Resize ratio
+        const MAX_WIDTH = 800
+        const MAX_HEIGHT = 800
+        let width = img.width
+        let height = img.height
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width
+            width = MAX_WIDTH
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height
+            height = MAX_HEIGHT
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+        const context = canvas.getContext("2d")
+        context?.drawImage(img, 0, 0, width, height)
+        
+        const base64Image = canvas.toDataURL("image/jpeg", 0.6)
+        
+        setState("processing")
+        const success = await submitEvidence(activityName, base64Image, { points })
+        if (success) {
+          setState("success") 
+        } else {
+          setState("idle")
+          alert("Erro ao enviar evidência.")
+        }
       }
-    }, 1000)
+    }
   }
 
   if (state === "success") {
@@ -104,7 +133,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    handleSimulateUpload()
+                    handleSimulateUpload(e.target.files[0])
                   }
                 }}
                 aria-label="Tirar Foto do Comprovante"
@@ -122,7 +151,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    handleSimulateUpload()
+                    handleSimulateUpload(e.target.files[0])
                   }
                 }}
                 aria-label="Fazer Upload da Galeria"

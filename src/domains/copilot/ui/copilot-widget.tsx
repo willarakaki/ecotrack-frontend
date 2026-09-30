@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useRef, useEffect } from "react"
 import { MessageSquare, X, Send, Sparkles, Loader2, ShieldAlert } from "lucide-react"
@@ -42,7 +42,7 @@ export function CopilotWidget() {
     setInput("")
     setIsTyping(true)
 
-    // Mapeando histórico e filtrando a mensagem inicial de boas-vindas para economizar tokens
+    // Mapeando histórico
     const history: ChatMessage[] = messages.slice(1).map(m => ({
       role: m.role,
       content: m.content
@@ -115,7 +115,6 @@ export function CopilotWidget() {
 
   return (
     <>
-      {/* Botão Flutuante */}
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-24 md:bottom-6 right-4 md:right-6 bg-gray-900 text-white p-4 rounded-full shadow-lg hover:scale-105 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
@@ -124,10 +123,8 @@ export function CopilotWidget() {
         <Sparkles size={24} className="text-[#00a859]" />
       </button>
 
-      {/* Janela de Chat */}
       {isOpen && (
         <div className="fixed bottom-0 md:bottom-6 right-0 md:right-6 w-full md:w-[380px] h-[80vh] md:h-[600px] bg-white md:rounded-2xl shadow-2xl z-50 flex flex-col border border-gray-200 animate-in slide-in-from-bottom-5 md:slide-in-from-bottom-2 duration-300">
-          {/* Header */}
           <div className="bg-gray-900 text-white p-4 flex items-center justify-between md:rounded-t-2xl">
             <div className="flex items-center gap-2">
               <Sparkles size={20} className="text-[#00a859]" />
@@ -138,7 +135,6 @@ export function CopilotWidget() {
             </button>
           </div>
 
-          {/* Área de Mensagens */}
           <div className="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -157,7 +153,7 @@ export function CopilotWidget() {
                   )}
 
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-sm prose-p:leading-snug max-w-none prose-green">
+                    <div className="prose prose-sm prose-p:leading-snug max-w-none prose-green prose-p:text-gray-900 prose-li:text-gray-900 prose-headings:text-gray-900">
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
                   ) : (
@@ -177,7 +173,6 @@ export function CopilotWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div className="p-4 bg-white border-t border-gray-200 md:rounded-b-2xl flex items-center gap-2">
             <input
               type="text"
@@ -185,7 +180,7 @@ export function CopilotWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Pergunte sobre seu impacto..."
-              className="flex-1 bg-gray-100 border border-transparent focus:border-gray-300 focus:outline-none focus:ring-0 rounded-full px-4 py-3 text-sm transition-colors"
+              className="flex-1 bg-gray-100 text-gray-900 border border-transparent focus:border-gray-300 focus:outline-none focus:ring-0 rounded-full px-4 py-3 text-sm transition-colors"
             />
             <Button size="icon" className="rounded-full h-11 w-11 flex-shrink-0" onClick={handleSend} disabled={!input.trim()}>
               <Send size={18} />
