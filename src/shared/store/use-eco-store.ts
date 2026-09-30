@@ -1,4 +1,19 @@
-﻿import { create } from "zustand"
+import { create } from "zustand"
+
+const getAuthHeaders = () => {
+  if (typeof window !== "undefined") {
+    return {
+      "Content-Type": "application/json",
+      "X-Tenant-ID": localStorage.getItem("tenant-id") || "tnt-1234-5678-abcd-efgh",
+      "X-User-ID": localStorage.getItem("user-id") || "usr-emp-1234-5678-abcd"
+    }
+  }
+  return {
+    "Content-Type": "application/json",
+    "X-Tenant-ID": "tnt-1234-5678-abcd-efgh",
+    "X-User-ID": "usr-emp-1234-5678-abcd"
+  }
+}
 
 export interface RedeemedReward {
   id: string
@@ -36,7 +51,8 @@ interface EcoStore {
   completeDailyQuiz: (points: number) => void
   setWeeklyChallenge: (status: boolean | null) => void
   isSubmittingEvidence: boolean
-  submitEvidence: (activityType: string, metadata: Record<string, unknown>) => Promise<boolean>
+  setUserStats: (points: number, carbon: number) => void
+  submitEvidence: (activityType: string, evidenceUrl: string, metadata: Record<string, unknown>) => Promise<boolean>
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
@@ -49,6 +65,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   streakDays: 12,
   acceptedWeeklyChallenge: null,
   isSubmittingEvidence: false,
+  setUserStats: (points, carbon) => set({ ecoPoints: points, individualCarbonSaved: carbon }),
   feed: [
     {
       id: "1",
@@ -152,13 +169,13 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
 
   setWeeklyChallenge: (status) => set({ acceptedWeeklyChallenge: status }),
 
-  submitEvidence: async (activityType: string, metadata: Record<string, unknown>) => {
+  submitEvidence: async (activityType: string, evidenceUrl: string, metadata: Record<string, unknown>) => {
     set({ isSubmittingEvidence: true })
     try {
       const response = await fetch("http://localhost:8080/api/v1/evidences", {
         method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify({ activityType, metadata })
+        body: JSON.stringify({ activityType, evidenceUrl, metadata })
       })
       if (response.status === 202) {
         return true

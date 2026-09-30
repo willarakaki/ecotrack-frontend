@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import { Input } from "@/shared/ui/input"
+import { useEcoStore } from "@/shared/store/use-eco-store"
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -38,8 +39,11 @@ export function LoginForm() {
       
       localStorage.setItem("user-id", data.userId)
       localStorage.setItem("tenant-id", data.tenantId)
+      localStorage.setItem("user-name", data.name)
+
+      useEcoStore.getState().setUserStats(data.ecoCoins, data.totalCo2Saved)
       
-      router.push("/home")
+      if (data.role === 'ADMIN_RH') { router.push('/admin/dashboard') } else { router.push('/home') }
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -107,3 +111,6 @@ export function LoginForm() {
     </div>
   )
 }
+
+
+
