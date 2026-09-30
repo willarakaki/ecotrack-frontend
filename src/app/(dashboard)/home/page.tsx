@@ -10,21 +10,24 @@ export default function DashboardPage() {
   const { ecoPoints, individualCarbonSaved, companyCarbonSaved, feed, toggleLikeFeedItem, activeGoal, sendPeerPraise, dailyQuizCompleted, completeDailyQuiz, streakDays, acceptedWeeklyChallenge, setWeeklyChallenge } = useEcoStore()
   const [isPraiseModalOpen, setIsPraiseModalOpen] = useState(false)
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
+  const [userName, setUserName] = useState("João")
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  React.useEffect(() => { setUserName(localStorage.getItem("user-name")?.split(" ")[0] || "João") }, [])
   
   const [receiver, setReceiver] = useState("")
   const [pointsToSend, setPointsToSend] = useState(10)
   const [message, setMessage] = useState("")
   const [tag, setTag] = useState("#Inovação")
 
-  const handleSendPraise = () => {
+  const handleSendPraise = async () => {
     if (!receiver || !message) return
-    const success = sendPeerPraise(receiver, pointsToSend, message, tag)
+    const success = await sendPeerPraise(receiver, pointsToSend, message, tag)
     if (success) {
       setIsPraiseModalOpen(false)
       setReceiver("")
       setMessage("")
     } else {
-      alert("Saldo de pontos insuficiente.")
+      alert("Saldo de pontos insuficiente ou erro na API.")
     }
   }
 
@@ -34,7 +37,7 @@ export default function DashboardPage() {
       {/* Saudação e Saldo */}
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Boa tarde, João!</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Boa tarde, {userName}!</h1>
           <p className="text-sm text-gray-500">A energia da equipe está em alta hoje.</p>
         </div>
         

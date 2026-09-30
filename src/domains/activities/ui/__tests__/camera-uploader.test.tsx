@@ -1,6 +1,5 @@
 import React from "react"
 import { render, screen, waitFor, act, fireEvent } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
 import { CameraUploader } from "../camera-uploader"
 import { useEcoStore } from "@/shared/store/use-eco-store"
 

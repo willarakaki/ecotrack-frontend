@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -15,50 +15,78 @@ interface CameraUploaderProps {
 
 export function CameraUploader({ activityName = "Sustentável", points = 50 }: CameraUploaderProps = {}) {
   const [state, setState] = useState<ValidationState>("idle")
-  const { addEcoPoints } = useEcoStore()
+  const { submitEvidence } = useEcoStore()
   const router = useRouter()
 
-  const handleSimulateUpload = () => {
+  const handleSimulateUpload = async (file: File) => {
     setState("uploading")
     
-    // Simula upload do arquivo
-    setTimeout(() => {
-      setState("processing") // Simula o Post no Kafka (Backend devolveu 202 Accepted)
-      
-      // Simula o processamento do Gatekeeper Ollama + Gemini 3.5 demorando uns segundos
-      setTimeout(() => {
-        setState("success")
-        addEcoPoints(points, 1.2, activityName) // Soma na store global e gera item no feed
-      }, 3000)
-    }, 1000)
+    // Converte e redimensiona a imagem para Base64 para não estourar o limite do Kafka (1MB)
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = async (event) => {
+      const img = new Image()
+      img.src = event.target?.result as string
+      img.onload = async () => {
+        const canvas = document.createElement("canvas")
+                
+        // Resize ratio
+        const MAX_WIDTH = 800
+        const MAX_HEIGHT = 800
+        let width = img.width
+        let height = img.height
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width
+            width = MAX_WIDTH
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height
+            height = MAX_HEIGHT
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+        const context = canvas.getContext("2d")
+        context?.drawImage(img, 0, 0, width, height)
+        
+        const base64Image = canvas.toDataURL("image/jpeg", 0.6)
+        
+        setState("processing")
+        const success = await submitEvidence(activityName, base64Image, { points })
+        if (success) {
+          setState("success") 
+        } else {
+          setState("idle")
+          alert("Erro ao enviar evidência.")
+        }
+      }
+    }
   }
 
   if (state === "success") {
     return (
       <div className="flex flex-col items-center justify-center p-6 text-center animate-in fade-in zoom-in duration-500">
-        <div className="w-32 h-32 bg-green-50 rounded-full flex items-center justify-center mb-6">
-          <CheckCircle size={64} className="text-[#00a859]" />
+        <div className="w-32 h-32 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+          <CheckCircle size={64} className="text-blue-500" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Evidência Validada com Sucesso!</h2>
-        <p className="text-lg text-[#00a859] font-bold mb-6">+{points} EcoPoints Acumulados</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Evidência Recebida!</h2>
+        <p className="text-lg text-blue-600 font-bold mb-6">Status: Em Análise pela IA 🤖</p>
         
         <div className="bg-white border border-gray-200 rounded-xl w-full text-left p-4 mb-6 shadow-sm">
           <div className="flex items-center gap-2 mb-4 border-b border-gray-100 pb-2">
-            <Ticket size={20} className="text-gray-500" />
-            <span className="font-semibold text-gray-700">Log de Validação por IA</span>
+            <Info size={20} className="text-gray-500" />
+            <span className="font-semibold text-gray-700">O que acontece agora?</span>
           </div>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between"><span className="text-gray-500">Tipo:</span><span className="font-medium text-right max-w-[200px]">{activityName}</span></div>
-            <div className="flex justify-between"><span className="text-gray-500">Data:</span><span className="font-medium">Hoje</span></div>
-            <div className="flex justify-between"><span className="text-gray-500">Fraude:</span><span className="font-medium text-[#00a859]">Não Detectada</span></div>
-          </div>
+          <p className="text-sm text-gray-600 mb-2">Nossa IA está verificando a autenticidade da sua evidência via streaming do Apache Kafka.</p>
+          <p className="text-sm text-gray-600">Assim que validada e aprovada, você receberá <b>+{points} EcoPoints</b> automaticamente e uma notificação no seu mural.</p>
         </div>
 
-        <Button className="w-full" size="lg" onClick={() => router.push("/marketplace")}>
-          Ir para o Marketplace de Benefícios
-        </Button>
-        <Button variant="ghost" className="w-full mt-2" onClick={() => router.push("/home")}>
-          Voltar para o início
+        <Button className="w-full" size="lg" onClick={() => router.push("/home")}>
+          Acompanhar no Mural
         </Button>
       </div>
     )
@@ -105,7 +133,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    handleSimulateUpload()
+                    handleSimulateUpload(e.target.files[0])
                   }
                 }}
                 aria-label="Tirar Foto do Comprovante"
@@ -123,7 +151,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    handleSimulateUpload()
+                    handleSimulateUpload(e.target.files[0])
                   }
                 }}
                 aria-label="Fazer Upload da Galeria"
@@ -145,7 +173,7 @@ export function CameraUploader({ activityName = "Sustentável", points = 50 }: C
       {state === "processing" && (
         <Button size="lg" className="w-full bg-gray-200 text-gray-700 hover:bg-gray-200 cursor-wait font-bold">
           <Loader2 className="mr-2 animate-spin" size={20} />
-          Processando por IA...
+          Enviando para Análise...
         </Button>
       )}
     </div>

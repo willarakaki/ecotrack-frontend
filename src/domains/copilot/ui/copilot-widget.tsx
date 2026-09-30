@@ -1,14 +1,16 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { MessageSquare, X, Send, Sparkles, Loader2 } from "lucide-react"
+import { MessageSquare, X, Send, Sparkles, Loader2, ShieldAlert } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/shared/ui/button"
+import { ChatMessage, ChatResponse } from "@/shared/api/types"
 
 type Message = {
   id: string
   role: "user" | "assistant"
   content: string
+  blocked?: boolean
 }
 
 export function CopilotWidget() {
@@ -32,7 +34,7 @@ export function CopilotWidget() {
     scrollToBottom()
   }, [messages])
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return
 
     const userMessage: Message = { id: Date.now().toString(), role: "user", content: input }
@@ -40,21 +42,79 @@ export function CopilotWidget() {
     setInput("")
     setIsTyping(true)
 
-    // Mock de chamada para LLM
-    setTimeout(() => {
-      setIsTyping(false)
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: "Nossa análise mostra que trocar o transporte individual pelo metrô por apenas **2 dias** na semana reduz sua pegada em cerca de `5 kg de CO₂`. Além disso, você ganha +100 EcoPoints!\n\nPosso te ajudar a registrar seu primeiro bilhete?"
+    // Mapeando histórico
+    const history: ChatMessage[] = messages.slice(1).map(m => ({
+      role: m.role,
+      content: m.content
+    }))
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_AI_URL || "http://localhost:8001";
+      const response = await fetch(`${apiUrl}/api/v1/copilot/chat/stream`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage.content, history })
+      });
+
+      if (!response.ok) throw new Error("Erro na API de IA");
+
+      setIsTyping(false);
+      
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      const aiMessageId = (Date.now() + 1).toString();
+      
+      setMessages((prev) => [...prev, { id: aiMessageId, role: "assistant", content: "" }]);
+
+      if (reader) {
+        let isDone = false;
+        while (!isDone) {
+          const { value, done } = await reader.read();
+          isDone = done;
+          if (value) {
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const dataStr = line.replace('data: ', '').trim();
+                if (dataStr === '[DONE]') {
+                  isDone = true;
+                  break;
+                }
+                if (dataStr) {
+                  try {
+                    const parsed: ChatResponse = JSON.parse(dataStr);
+                    setMessages((prev) => prev.map(m => {
+                      if (m.id === aiMessageId) {
+                        return { 
+                          ...m, 
+                          content: m.content + (parsed.content || ""),
+                          blocked: parsed.blocked_by_guardrail 
+                        }
+                      }
+                      return m;
+                    }));
+                  } catch (e) {
+                    console.error("Erro ao fazer parse do chunk de stream:", e);
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-      setMessages((prev) => [...prev, aiResponse])
-    }, 1800)
+    } catch (error) {
+      setIsTyping(false);
+      setMessages((prev) => [...prev, { 
+        id: (Date.now() + 1).toString(), 
+        role: "assistant", 
+        content: "Desculpe, ocorreu um erro de conexão com a API do Copilot." 
+      }]);
+    }
   }
 
   return (
     <>
-      {/* Botão Flutuante */}
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-24 md:bottom-6 right-4 md:right-6 bg-gray-900 text-white p-4 rounded-full shadow-lg hover:scale-105 transition-transform z-40 ${isOpen ? 'hidden' : 'flex'}`}
@@ -63,10 +123,8 @@ export function CopilotWidget() {
         <Sparkles size={24} className="text-[#00a859]" />
       </button>
 
-      {/* Janela de Chat */}
       {isOpen && (
         <div className="fixed bottom-0 md:bottom-6 right-0 md:right-6 w-full md:w-[380px] h-[80vh] md:h-[600px] bg-white md:rounded-2xl shadow-2xl z-50 flex flex-col border border-gray-200 animate-in slide-in-from-bottom-5 md:slide-in-from-bottom-2 duration-300">
-          {/* Header */}
           <div className="bg-gray-900 text-white p-4 flex items-center justify-between md:rounded-t-2xl">
             <div className="flex items-center gap-2">
               <Sparkles size={20} className="text-[#00a859]" />
@@ -77,13 +135,25 @@ export function CopilotWidget() {
             </button>
           </div>
 
-          {/* Área de Mensagens */}
           <div className="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${msg.role === "user" ? "bg-[#00a859] text-white rounded-tr-sm" : "bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm"}`}>
+                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                    msg.role === "user" 
+                      ? "bg-[#00a859] text-white rounded-tr-sm" 
+                      : msg.blocked 
+                        ? "bg-red-50 border border-red-200 text-red-800 rounded-tl-sm shadow-sm"
+                        : "bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm"
+                  }`}>
+                  
+                  {msg.role === "assistant" && msg.blocked && (
+                    <div className="flex items-center gap-2 mb-2 text-red-600 font-semibold text-xs">
+                      <ShieldAlert size={14} /> Guardrail Ativado
+                    </div>
+                  )}
+
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-sm prose-green prose-p:leading-snug max-w-none">
+                    <div className="prose prose-sm prose-p:leading-snug max-w-none prose-green prose-p:text-gray-900 prose-li:text-gray-900 prose-headings:text-gray-900">
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
                   ) : (
@@ -103,7 +173,6 @@ export function CopilotWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div className="p-4 bg-white border-t border-gray-200 md:rounded-b-2xl flex items-center gap-2">
             <input
               type="text"
@@ -111,7 +180,7 @@ export function CopilotWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Pergunte sobre seu impacto..."
-              className="flex-1 bg-gray-100 border border-transparent focus:border-gray-300 focus:outline-none focus:ring-0 rounded-full px-4 py-3 text-sm transition-colors"
+              className="flex-1 bg-gray-100 text-gray-900 border border-transparent focus:border-gray-300 focus:outline-none focus:ring-0 rounded-full px-4 py-3 text-sm transition-colors"
             />
             <Button size="icon" className="rounded-full h-11 w-11 flex-shrink-0" onClick={handleSend} disabled={!input.trim()}>
               <Send size={18} />

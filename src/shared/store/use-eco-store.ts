@@ -1,5 +1,20 @@
 import { create } from "zustand"
 
+const getAuthHeaders = () => {
+  if (typeof window !== "undefined") {
+    return {
+      "Content-Type": "application/json",
+      "X-Tenant-ID": localStorage.getItem("tenant-id") || "tnt-1234-5678-abcd-efgh",
+      "X-User-ID": localStorage.getItem("user-id") || "usr-emp-1234-5678-abcd"
+    }
+  }
+  return {
+    "Content-Type": "application/json",
+    "X-Tenant-ID": "tnt-1234-5678-abcd-efgh",
+    "X-User-ID": "usr-emp-1234-5678-abcd"
+  }
+}
+
 export interface RedeemedReward {
   id: string
   name: string
@@ -35,6 +50,9 @@ interface EcoStore {
   toggleLikeFeedItem: (id: string) => void
   completeDailyQuiz: (points: number) => void
   setWeeklyChallenge: (status: boolean | null) => void
+  isSubmittingEvidence: boolean
+  setUserStats: (points: number, carbon: number) => void
+  submitEvidence: (activityType: string, evidenceUrl: string, metadata: Record<string, unknown>) => Promise<boolean>
 }
 
 export const useEcoStore = create<EcoStore>((set, get) => ({
@@ -46,12 +64,14 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   dailyQuizCompleted: false,
   streakDays: 12,
   acceptedWeeklyChallenge: null,
+  isSubmittingEvidence: false,
+  setUserStats: (points, carbon) => set({ ecoPoints: points, individualCarbonSaved: carbon }),
   feed: [
     {
       id: "1",
       author: "Sistema EcoTrack",
-      content: "Bem-vindo ao novo Mural Sustentável e de Reconhecimento!",
-      tag: "#Inovação",
+      content: "Bem-vindo ao novo Mural SustentÃ¡vel e de Reconhecimento!",
+      tag: "#InovaÃ§Ã£o",
       likes: 5,
       isLikedByMe: false,
       date: "Hoje"
@@ -61,8 +81,8 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   addEcoPoints: (points, carbon, activityName) => set((state) => {
     const newFeedItem: FeedItem = {
       id: Date.now().toString(),
-      author: "Você",
-      content: `Registrou uma ação de sustentabilidade: ${activityName} e ganhou ${points} EcoPoints!`,
+      author: "VocÃª",
+      content: `Registrou uma aÃ§Ã£o de sustentabilidade: ${activityName} e ganhou ${points} EcoPoints!`,
       tag: "#Sustentabilidade",
       likes: 0,
       isLikedByMe: false,
@@ -81,7 +101,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
     if (currentPoints >= cost) {
       const newFeedItem: FeedItem = {
         id: Date.now().toString(),
-        author: "Você",
+        author: "VocÃª",
         content: `Resgatou a recompensa: ${rewardName}!`,
         tag: "#Reconhecimento",
         likes: 0,
@@ -110,7 +130,7 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
     if (currentPoints >= points) {
       const newFeedItem: FeedItem = {
         id: Date.now().toString(),
-        author: "Você",
+        author: "VocÃª",
         receiver: receiver,
         content: message,
         tag: tag,
@@ -143,9 +163,31 @@ export const useEcoStore = create<EcoStore>((set, get) => ({
   completeDailyQuiz: (points) => {
     if (!get().dailyQuizCompleted) {
       set({ dailyQuizCompleted: true })
-      get().addEcoPoints(points, 0, "Quiz Diário")
+      get().addEcoPoints(points, 0, "Quiz DiÃ¡rio")
     }
   },
 
-  setWeeklyChallenge: (status) => set({ acceptedWeeklyChallenge: status })
+  setWeeklyChallenge: (status) => set({ acceptedWeeklyChallenge: status }),
+
+  submitEvidence: async (activityType: string, evidenceUrl: string, metadata: Record<string, unknown>) => {
+    set({ isSubmittingEvidence: true })
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/evidences", {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ activityType, evidenceUrl, metadata })
+      })
+      if (response.status === 202) {
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error("Erro ao enviar evidencia", error)
+      return false
+    } finally {
+      set({ isSubmittingEvidence: false })
+    }
+  },
 }))
+
+
