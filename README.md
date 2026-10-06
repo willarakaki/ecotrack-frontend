@@ -1,5 +1,7 @@
 # 🌱 EcoTrack AI — Frontend
 
+🔗 **Acesse o repositório do Backend (API & IA) aqui:** [willarakaki/ecotrack-backend](https://github.com/willarakaki/ecotrack-backend)
+
 Interface web do **EcoTrack AI**, um SaaS B2B de ESG para rastreamento de emissões de **Escopo 3** por meio de **gamificação** e de um **Copiloto de Sustentabilidade** com IA.
 
 O colaborador registra ações sustentáveis (mobilidade, home office, resíduos) enviando uma evidência; uma IA valida e converte o CO₂ evitado em **EcoCoins**, que podem ser trocados por recompensas. Gestores acompanham o ROI ESG em um painel administrativo.
