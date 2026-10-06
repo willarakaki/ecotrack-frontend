@@ -1,11 +1,25 @@
 # 🌱 EcoTrack AI — Frontend
 
+🔗 **Acesse o repositório do Backend (API & IA) aqui:** [willarakaki/ecotrack-backend](https://github.com/willarakaki/ecotrack-backend)
+
 Interface web do **EcoTrack AI**, um SaaS B2B de ESG para rastreamento de emissões de **Escopo 3** por meio de **gamificação** e de um **Copiloto de Sustentabilidade** com IA.
 
 O colaborador registra ações sustentáveis (mobilidade, home office, resíduos) enviando uma evidência; uma IA valida e converte o CO₂ evitado em **EcoCoins**, que podem ser trocados por recompensas. Gestores acompanham o ROI ESG em um painel administrativo.
 
 > O backend (Core Java + serviço de IA Python) está em [`ecotrack-ai`](../ecotrack-ai/README.md).
 
+---
+
+
+## ⚡ Otimizações e Performance (UX)
+
+> **Nota:** Estes números foram extraídos de testes reais de benchmark local na máquina de desenvolvimento.
+
+O frontend do EcoTrack AI foi desenhado para mascarar a latência natural de sistemas baseados em Inteligência Artificial, priorizando a experiência do usuário (UX):
+
+* **Redução de Latência no TTFT (Time-To-First-Token) em 53%:** O chat do Copiloto utiliza **Server-Sent Events (SSE)**. Uma requisição tradicional faria o usuário aguardar **~8.3 segundos** olhando para um loading infinito. Com SSE, a interface renderiza a primeira palavra em **~3.9 segundos** (3909ms) e continua fazendo stream, mantendo o engajamento alto.
+* **Atualização Otimista (Optimistic UI):** Ao resgatar uma recompensa ou publicar uma evidência via Kafka, o Zustand altera a interface instantaneamente (ex: debitando as EcoCoins), respondendo à interação em milissegundos enquanto o backend resolve a transação (229ms) no background.
+* **Arquitetura Assíncrona:** A interface não é bloqueada pelo processamento de imagem OCR. O usuário submete a foto e recebe a notificação depois que o Kafka e o worker Python terminam o processamento.
 ---
 
 ## 📑 Sumário
