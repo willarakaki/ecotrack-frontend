@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -44,8 +44,12 @@ export function LoginForm() {
       useEcoStore.getState().setUserStats(data.ecoCoins, data.totalCo2Saved)
       
       if (data.role === 'ADMIN_RH') { router.push('/admin/dashboard') } else { router.push('/home') }
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("Ocorreu um erro.")
+      }
     } finally {
       setIsLoading(false)
     }

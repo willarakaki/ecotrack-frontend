@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Users, Flame, Heart, Zap, Award, Target, Trophy } from "lucide-react"
+import { Users, Flame, Heart, Zap, Target, Trophy } from "lucide-react"
 
 export default function EngagementPage() {
   const departments = [

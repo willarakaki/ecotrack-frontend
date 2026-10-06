@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { Search, Filter, FileText, CheckCircle, XCircle, Download, Eye, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, Filter, CheckCircle, XCircle, Download, Eye, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 
 const auditData = [

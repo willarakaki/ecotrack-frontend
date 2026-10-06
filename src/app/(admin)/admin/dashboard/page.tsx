@@ -2,7 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
-import { TrendingUp, Users, Leaf, ArrowUpRight, ArrowDownRight, FileCheck, AlertCircle } from "lucide-react"
+import { TrendingUp, Users, Leaf, ArrowUpRight, ArrowDownRight, FileCheck } from "lucide-react"
 
 export default function AdminDashboardPage() {
   return (
