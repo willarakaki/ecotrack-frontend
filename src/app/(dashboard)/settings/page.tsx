@@ -1,5 +1,5 @@
 import React from "react"
-import { Shield, Lock, Bell, Palette, Globe, ChevronLeft } from "lucide-react"
+import { Shield, Lock, Palette, Globe, ChevronLeft } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/shared/ui/button"
 

@@ -1,7 +1,7 @@
-﻿"use client"
+"use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { MessageSquare, X, Send, Sparkles, Loader2, ShieldAlert } from "lucide-react"
+import { X, Send, Sparkles, Loader2, ShieldAlert } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/shared/ui/button"
 import { ChatMessage, ChatResponse } from "@/shared/api/types"
@@ -103,7 +103,7 @@ export function CopilotWidget() {
           }
         }
       }
-    } catch (error) {
+    } catch {
       setIsTyping(false);
       setMessages((prev) => [...prev, { 
         id: (Date.now() + 1).toString(), 

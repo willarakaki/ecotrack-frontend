@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { AnimatedNumber } from "@/shared/ui/animated-number"
 import { useEcoStore } from "@/shared/store/use-eco-store"
-import { Leaf, Award, Heart, Target, Plus, Zap, BookOpen, ChevronRight, Flame, Bike } from "lucide-react"
+import { Leaf, Award, Heart, Target, Plus, BookOpen, ChevronRight, Flame, Bike } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 import Link from "next/link"
 

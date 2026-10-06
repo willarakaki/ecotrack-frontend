@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useState } from "react"
-import { Building2, Palette, Shield, Bot, Save, CreditCard, Users, Link as LinkIcon, Upload } from "lucide-react"
+import Image from "next/image"
+import { Palette, Shield, Bot, Save, CreditCard, Users, Link as LinkIcon, Upload } from "lucide-react"
 import { Button } from "@/shared/ui/button"
 
 export default function SettingsPage() {
@@ -74,7 +75,7 @@ export default function SettingsPage() {
                   <label className="text-sm font-bold text-gray-700">Logo da Empresa</label>
                   <div className="flex items-center gap-6">
                     <div className="w-20 h-20 flex items-center justify-center p-0">
-                      <img src="/logo.png" alt="Logo" className="max-w-full max-h-full rounded-md object-contain" />
+                      <Image src="/logo.png" alt="Logo" width={80} height={80} className="max-w-full max-h-full rounded-md object-contain" />
                     </div>
                     <Button variant="outline" className="bg-white border-gray-300 text-gray-600">
                       <Upload size={16} className="mr-2" /> Fazer Upload
