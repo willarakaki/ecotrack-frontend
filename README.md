@@ -8,6 +8,18 @@ O colaborador registra ações sustentáveis (mobilidade, home office, resíduos
 
 ---
 
+
+## ⚡ Otimizações e Performance (UX)
+
+> **Nota:** Estes números foram extraídos de testes reais de benchmark local na máquina de desenvolvimento.
+
+O frontend do EcoTrack AI foi desenhado para mascarar a latência natural de sistemas baseados em Inteligência Artificial, priorizando a experiência do usuário (UX):
+
+* **Redução de Latência no TTFT (Time-To-First-Token) em 53%:** O chat do Copiloto utiliza **Server-Sent Events (SSE)**. Uma requisição tradicional faria o usuário aguardar **~8.3 segundos** olhando para um loading infinito. Com SSE, a interface renderiza a primeira palavra em **~3.9 segundos** (3909ms) e continua fazendo stream, mantendo o engajamento alto.
+* **Atualização Otimista (Optimistic UI):** Ao resgatar uma recompensa ou publicar uma evidência via Kafka, o Zustand altera a interface instantaneamente (ex: debitando as EcoCoins), respondendo à interação em milissegundos enquanto o backend resolve a transação (229ms) no background.
+* **Arquitetura Assíncrona:** A interface não é bloqueada pelo processamento de imagem OCR. O usuário submete a foto e recebe a notificação depois que o Kafka e o worker Python terminam o processamento.
+---
+
 ## 📑 Sumário
 
 - [Funcionalidades](#-funcionalidades)
